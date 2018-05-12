@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 33 33" style="enable-background:new 0 0 33 33;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#00BAAE;}
+	.st1{fill:#FFFFFF;}
+</style>
+<title>SIcon/Order</title>
+<desc>Created with Sketch.</desc>
+<g id="MTA-Component">
+	<g id="SIcon_x2F_Order">
+		<g id="Page-1">
+			<path id="Fill-1" class="st0" d="M33,16.5C33,25.6,25.6,33,16.5,33S0,25.6,0,16.5S7.4,0,16.5,0S33,7.4,33,16.5"/>
+			<path id="Fill-3" class="st1" d="M26.2,13.3V9.9c0-0.3-0.2-0.6-0.6-0.6h-7v4H26.2z"/>
+			<path id="Fill-5" class="st1" d="M18.6,15v1.5c0,0.1-0.1,0.3-0.2,0.3l-3.6,1c-0.2,0.1-0.4-0.1-0.4-0.3V15H7.8v8.9
+				c0,0.4,0.3,0.7,0.7,0.7h16c0.4,0,0.7-0.3,0.7-0.7V15H18.6z"/>
+			<path id="Fill-7" class="st1" d="M14.4,13.3v-4h-7c-0.3,0-0.6,0.2-0.6,0.6v3.4H14.4z"/>
+		</g>
+	</g>
+</g>
+</svg>
