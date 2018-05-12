@@ -1,15 +1,13 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import langs from '@/lang'
-import axios from 'axios'
+import en from '@/langs/en'
 
 Vue.use(VueI18n)
 
-export const i18n = new VueI18n({
+const i18n = new VueI18n({
   locale: 'en',
   fallbackLocale: 'en',
-  langs
+  messages: en
 })
 
-const loadedLanguages = ['en']
-
+export default i18n

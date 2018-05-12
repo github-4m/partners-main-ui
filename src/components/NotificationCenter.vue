@@ -6,11 +6,11 @@
     </div>
     <ul class="dropdown">
       <li class="notification-upper">
-        NOTIFICATION<a class="pull-right">Mark all as read</a>
+        {{$t('notification.title')}}<a class="pull-right">{{$t('notification.button.mark_all_as_read')}}</a>
       </li>
       <li class="notification-middle" v-bind:class="{'empty' : notifications.length === 0}">
         <div v-if="notifications.length === 0">
-          <img src="@/assets/images/notification/empty.svg" alt><br>No Notification
+          <img src="@/assets/images/notification/empty.svg" alt><br>{{$t('notification.text.no_notification')}}
         </div>
         <ul class="notification-item" v-if="notifications.length > 0">
           <li v-for="notification in notifications">
@@ -22,7 +22,7 @@
         </ul>
       </li>
       <li class="notification-lower">
-        <a>See all notification</a>
+        <a>{{$t('notification.button.see_all_notification')}}</a>
       </li>
     </ul>
   </li>
@@ -45,7 +45,8 @@
           createdDate: 1526009043479,
           groupType: 'ACTIVITY',
           type: null,
-          message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque congue justo quis fermentum dictum. Fusce blandit tempus arcu at posuere. Etiam semper consectetur vehicula.'
+          message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque congue justo quis fermentum dictum. Fusce blandit tempus arcu at posuere. Etiam semper consectetur vehicula.',
+          image: require('@/assets/images/notification/activity.svg')
         }, {
           createdDate: 1522299762880,
           groupType: 'ACTIVITY',
@@ -83,7 +84,8 @@
     methods: {
       connect() {
         let self = this
-        this.socket = new SockJs('/web-socket/notification?storeId=10001&channelId=frontend&clientId=' + process.env.npm_package_name + '&requestId=' + new Date().getTime())
+        this.socket = new SockJs('/web-socket/notification?storeId=10001&channelId=frontend&clientId='
+          + process.env.npm_package_name + '&requestId=' + new Date().getTime())
         this.stomp = Stomp.over(this.socket)
         this.stomp.debug = () => {
         }
@@ -105,7 +107,6 @@
 <style scoped>
   .notification {
     font-size: 20px;
-    position: relative;
     text-align: center;
   }
 

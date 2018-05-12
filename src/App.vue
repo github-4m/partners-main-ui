@@ -1,47 +1,56 @@
 <template>
   <div>
-    <the-header :user="user()"/>
+    <the-header :user="user"/>
+    <!-- center page -->
+    <br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br>
+    <the-footer :user="user"/>
   </div>
 </template>
 
 <script>
   import TheHeader from "./components/TheHeader";
+  import TheFooter from "./components/TheFooter";
 
   export default {
     name: 'App',
-    components: {TheHeader},
-    methods: {
-      user() {
-        return {
+    components: {TheFooter, TheHeader},
+    data: () => {
+      return {
+        user: {
           username: 'fathan.mustaqiim@gdn-commerce.com',
           name: 'Fathan Mustaqiim',
           mode: {code: 'BLT-00001', type: 'STORE', name: 'Blibli.com Testing'},
           options: [{
-            code:'store-info',
-            name:'Store Info',
-            url: '/store-info'
+            code: 'store-information',
+            name: 'Store Info',
+            url: null
           }, {
-            code:'store-user',
-            name:'Store User',
-            url: '/user'
+            code: 'user-management',
+            name: 'User Management',
+            url: null
           }, {
-            code:'training-video',
-            name:'Training Video',
-            url: '/training/video'
+            code: 'training-video',
+            name: 'Training Video',
+            url: null
           }, {
-            code:'download-docs',
-            name:'Download Docs',
-            url: '/download/mta-docs.pdf'
+            code: 'download-docs',
+            name: 'Download Docs',
+            url: null
           }, {
-            code:'download-api-docs',
-            name:'Download API Docs',
-            url: '/download/mta-api-docs.pdf'
+            code: 'download-api-docs',
+            name: 'Download API Docs',
+            url: null
           }, {
-            code:'switch-account',
-            name:'Switch Account',
+            code: 'switch-account',
+            name: 'Switch Account',
             url: '/account/reset'
           }]
-        };
+        }
       }
     }
   }

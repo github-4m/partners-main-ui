@@ -14,8 +14,9 @@
             <span class="store-name">{{user.mode.name}}</span>
           </div>
         </li>
+        <localization-center/>
         <notification-center v-if="isAuthorized('STORE')" :storeCode="user.mode.code"/>
-        <li class="option">
+        <li v-if="isAuthorized()" class="option">
           <div class="user">
             <i class="far fa-user"/>
           </div>
@@ -25,10 +26,12 @@
               <div class="email">{{user.username}}</div>
             </li>
             <li class="splitter"/>
-            <li v-for="option in user.options"><a v-bind:id="option.code">{{option.name}}</a></li>
+            <li v-for="option in user.options"><a v-bind:id="option.code" v-bind:href="option.url">
+              {{$t('header.button.' + option.code.replace(/-/g, '_'))}}</a>
+            </li>
             <li class="splitter"/>
-            <li><a>Change Password</a></li>
-            <li><a>Logout</a></li>
+            <li><a>{{$t('header.button.change_password')}}</a></li>
+            <li><a>{{$t('header.button.sign_out')}}</a></li>
           </ul>
         </li>
       </ul>
@@ -38,20 +41,22 @@
 
 <script>
   import NotificationCenter from "./NotificationCenter";
+  import LocalizationCenter from "./LocalizationCenter";
 
   export default {
     name: "TheHeader",
-    components: {NotificationCenter},
+    components: {LocalizationCenter, NotificationCenter},
     props: {
       user: {type: Object, required: false}
     },
     methods: {
       isAuthorized(mode) {
         let self = this
-        if (mode === 'undefined' || mode === null) {
+        if (typeof mode === 'undefined' || mode === null) {
           return typeof self.user !== 'undefined' && self.user !== null
         } else {
-          return typeof self.user !== 'undefined' && self.user !== null && mode === self.user.mode.type
+          return typeof self.user !== 'undefined' && self.user !== null && mode
+            === self.user.mode.type
         }
       }
     }
@@ -78,6 +83,7 @@
 
   .header .store-name {
     color: #337ab7;
+    font-size: 16px;
     font-weight: 800;
   }
 
@@ -157,12 +163,16 @@
 
   .dropdown > li a {
     color: #333;
+    display: block;
     padding: 5px 12px;
+    text-decoration: none;
+    white-space: nowrap;
     width: auto;
   }
 
   .dropdown > li.splitter {
     border-bottom: #ddd 1px solid;
+    display: block;
     margin: 8px 0;
   }
 
