@@ -52,7 +52,7 @@
       self.$nextTick(() => {
         let lang = localStorage.getItem('lang')
         if (lang === undefined || lang === null) {
-          localStorage.setItem('en')
+          localStorage.setItem('lang', 'en')
         } else {
           self.loadLocale(lang)
         }

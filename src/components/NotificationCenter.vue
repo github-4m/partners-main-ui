@@ -31,7 +31,7 @@
 <script>
   import SockJs from 'sockjs-client'
   import Stomp from 'webstomp-client'
-  import moment from 'moment'
+  import Moment from 'moment'
 
   export default {
     name: "NotificationCenter",
@@ -74,10 +74,10 @@
         }
       }, date(value) {
         let date = new Date()
-        if (moment(date).format('YYYY-DD-MM') === moment(value).format('YYYY-DD-MM')) {
-          return moment(value).format('hh:mm')
+        if (Moment(date).format('YYYY-DD-MM') === Moment(value).format('YYYY-DD-MM')) {
+          return Moment(value).format('hh:mm')
         } else {
-          return moment(date).format('DD MMMM YYYY')
+          return Moment(date).format('DD MMMM YYYY')
         }
       }
     },

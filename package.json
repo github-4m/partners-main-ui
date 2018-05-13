@@ -21,6 +21,7 @@
     "sockjs-client": "^1.1.4",
     "vue": "^2.5.2",
     "vue-i18n": "^7.6.0",
+    "vue-resource": "^1.5.0",
     "vue-router": "^3.0.1",
     "webstomp-client": "^1.2.0"
   },
@@ -67,6 +68,7 @@
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",
+    "vue-resource-mock": "0.0.9",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",

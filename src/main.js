@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import i18n from './i18n'
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = process.env.NODE_ENV === 'production';
 
 /* eslint-disable no-new */
 new Vue({
