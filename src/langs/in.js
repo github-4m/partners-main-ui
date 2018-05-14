@@ -9,7 +9,18 @@ const lang = {
         user_management: 'Manajemen User',
         training_video: 'Video Pelatihan',
         download_docs: 'Unduh Dokumentasi',
-        download_api_docs: 'Unduh Dokumentasi API'
+        download_api_docs: 'Unduh Dokumentasi API',
+        configuration: 'Konfigurasi',
+        close_temporarily: 'Tutup Sementara'
+      }
+    },
+    menu: {
+      button: {
+        dashboard: 'Beranda',
+        product: 'Produk',
+        all_product: 'Semua Produk',
+        single_product: 'Single Produk',
+        bulk_product: 'Bulk Produk'
       }
     },
     footer: {

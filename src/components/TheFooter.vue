@@ -31,7 +31,7 @@
           <div>
             <a id="android-app"
                href="https://play.google.com/store/apps/details?id=com.gdn.blibli.mta"><img
-              class="seller-app" src="@/assets/images/footer/android-app.svg" alt></a>
+              class="seller-app" src="/static/images/footer/android-app.svg" alt></a>
           </div>
         </li>
       </ul>
@@ -74,7 +74,7 @@
   }
 
   .footer img.seller-app {
-    width: 150px;
+    width: 115px;
   }
 
   .footer-block {
@@ -92,7 +92,7 @@
   }
 
   .footer-block > li .title {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 800;
     margin-bottom: 10px;
   }

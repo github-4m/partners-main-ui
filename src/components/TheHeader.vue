@@ -15,7 +15,7 @@
           </div>
         </li>
         <localization-center/>
-        <notification-center v-if="isAuthorized('STORE')" :storeCode="user.mode.code"/>
+        <notification-center v-if="isAuthorized('STORE')" v-bind:storeCode="user.mode.code"/>
         <li v-if="isAuthorized()" class="option">
           <div class="user">
             <i class="far fa-user"/>
@@ -36,16 +36,18 @@
         </li>
       </ul>
     </div>
+    <the-menu v-bind:user="user"/>
   </div>
 </template>
 
 <script>
-  import NotificationCenter from "./NotificationCenter";
-  import LocalizationCenter from "./LocalizationCenter";
+  import NotificationCenter from './NotificationCenter';
+  import LocalizationCenter from './LocalizationCenter';
+  import TheMenu from './TheMenu';
 
   export default {
     name: "TheHeader",
-    components: {LocalizationCenter, NotificationCenter},
+    components: {TheMenu, LocalizationCenter, NotificationCenter},
     props: {
       user: {type: Object, required: false}
     },
@@ -165,7 +167,6 @@
     color: #333;
     display: block;
     padding: 5px 12px;
-    text-decoration: none;
     white-space: nowrap;
     width: auto;
   }

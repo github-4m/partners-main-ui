@@ -1,22 +1,25 @@
 <template>
-  <li class="option" @click="dropdown($event)">
+  <li class="option" @click="dropdown($event); find();">
     <div class="notification">
       <i class="far fa-bell"/>
       <div class="counter" v-if="notificationCount !== 0">{{notificationCount | simplify}}</div>
     </div>
     <ul class="dropdown">
       <li class="notification-upper">
-        {{$t('notification.title')}}<a class="pull-right">{{$t('notification.button.mark_all_as_read')}}</a>
+        {{$t('notification.title')}}<a class="pull-right" v-on:click.stop="readAll()">{{$t('notification.button.mark_all_as_read')}}</a>
       </li>
       <li class="notification-middle" v-bind:class="{'empty' : notifications.length === 0}">
         <div v-if="notifications.length === 0">
-          <img src="@/assets/images/notification/empty.svg" alt><br>{{$t('notification.text.no_notification')}}
+          <img src="/static/images/notification/empty.svg" alt><br>{{$t('notification.text.no_notification')}}
         </div>
         <ul class="notification-item" v-if="notifications.length > 0">
-          <li v-for="notification in notifications">
+          <li v-for="notification in notifications"
+              v-bind:class="{'unread' : !notification.alreadyRead}" @click="details()">
             {{notification.message}}
-            <div>
-              {{notification.createdDate | date}}
+            <div class="details">
+              <img
+                v-bind:src="'/static/images/notification/' + notification.groupType.toLowerCase() + '.svg'"
+                alt>&nbsp;<span>{{notification.createdDate | date}}</span>
             </div>
           </li>
         </ul>
@@ -32,6 +35,7 @@
   import SockJs from 'sockjs-client'
   import Stomp from 'webstomp-client'
   import Moment from 'moment'
+  import api from '@/api'
 
   export default {
     name: "NotificationCenter",
@@ -40,29 +44,14 @@
     },
     data: () => {
       return {
+        loaded: {
+          notification: false
+        },
+        modal: {
+          open: false
+        },
         notificationCount: 0,
-        notifications: [{
-          createdDate: 1526009043479,
-          groupType: 'ACTIVITY',
-          type: null,
-          message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque congue justo quis fermentum dictum. Fusce blandit tempus arcu at posuere. Etiam semper consectetur vehicula.',
-          image: require('@/assets/images/notification/activity.svg')
-        }, {
-          createdDate: 1522299762880,
-          groupType: 'ACTIVITY',
-          type: null,
-          message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque congue justo quis fermentum dictum. Fusce blandit tempus arcu at posuere. Etiam semper consectetur vehicula.'
-        }, {
-          createdDate: 1522299762880,
-          groupType: 'ACTIVITY',
-          type: null,
-          message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque congue justo quis fermentum dictum. Fusce blandit tempus arcu at posuere. Etiam semper consectetur vehicula.'
-        }, {
-          createdDate: 1522299762880,
-          groupType: 'ACTIVITY',
-          type: null,
-          message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque congue justo quis fermentum dictum. Fusce blandit tempus arcu at posuere. Etiam semper consectetur vehicula.'
-        }]
+        notifications: []
       }
     },
     filters: {
@@ -84,22 +73,51 @@
     methods: {
       connect() {
         let self = this
-        this.socket = new SockJs('/web-socket/notification?storeId=10001&channelId=frontend&clientId='
+        self.socket = new SockJs('/web-socket/notification?storeId=10001&channelId=frontend&clientId='
           + process.env.npm_package_name + '&requestId=' + new Date().getTime())
-        this.stomp = Stomp.over(this.socket)
-        this.stomp.debug = () => {
+        self.stomp = Stomp.over(self.socket)
+        self.stomp.debug = () => {
         }
-        this.stomp.connect({}, frame => {
-          this.stomp.subscribe('/topic/' + self.storeCode, tick => {
-            this.$data['notificationCount']++
+        self.stomp.connect({}, frame => {
+          self.stomp.subscribe('/topic/' + self.storeCode, tick => {
+            self.$data['notificationCount']++
           })
         }, error => {
-          console.log(error)
         })
       },
       dropdown(event) {
         event.currentTarget.classList.toggle('active')
+      },
+      details() {
+        let self = this
+        self.modal.open = true
+      },
+      find() {
+        let self = this
+        self.notificationCount = 0
+        if (!self.loaded.notification) {
+          api.notification.find(0, 5).then(response => {
+            if (response.ok) {
+              if (response.body.success) {
+                self.notifications = response.body.content
+              }
+            }
+          }, response => {
+          })
+        }
+        self.loaded.notification = !self.loaded.notification
+      },
+      readAll() {
+        api.notification.readAll()
       }
+    },
+    mounted() {
+      let self = this
+      self.$nextTick(() => {
+        if (process.env.NODE_ENV === 'production') {
+          self.connect()
+        }
+      })
     }
   }
 </script>
@@ -112,6 +130,8 @@
 
   .notification .counter {
     background: #dc3545;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
     border-radius: 15px;
     color: #fff;
     font-size: 13px;
@@ -124,6 +144,7 @@
 
   .notification-upper {
     border-bottom: #ddd 1px solid;
+    color: #aaa;
     padding: 8px 12px;
   }
 
@@ -169,6 +190,34 @@
     background: #e5e5e5;
   }
 
+  .notification-item > li.unread {
+    background: rgba(229, 244, 251, 0.5);
+  }
+
+  .notification-item > li.unread:hover {
+    background: #e5e5e5;
+  }
+
+  .notification-item > li .details {
+    color: #aaa;
+    margin-top: 8px;
+  }
+
+  .notification-item > li .details img {
+    vertical-align: middle;
+    width: 20px;
+  }
+
+  .notification-item > li .details span {
+    vertical-align: middle;
+  }
+
+  .option {
+    cursor: pointer;
+    position: relative;
+    width: 60px;
+  }
+
   .option.active {
     background: #f5f5f5;
     color: #337ab7;
@@ -197,8 +246,4 @@
     z-index: 1;
   }
 
-  .dropdown > li.splitter {
-    border-bottom: #ddd 1px solid;
-    margin: 8px 0;
-  }
 </style>

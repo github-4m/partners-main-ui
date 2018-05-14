@@ -96,7 +96,6 @@
     color: #333;
     display: block;
     padding: 5px 12px;
-    text-decoration: none;
     white-space: nowrap;
     width: auto;
   }

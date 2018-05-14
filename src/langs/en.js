@@ -9,7 +9,18 @@ const lang = {
         user_management: 'User management',
         training_video: 'Training Video',
         download_docs: 'Download Docs',
-        download_api_docs: 'Download API Docs'
+        download_api_docs: 'Download API Docs',
+        configuration: 'Configuration',
+        close_temporarily: 'Close Temporarily'
+      }
+    },
+    menu: {
+      button: {
+        dashboard: 'Dashboard',
+        product: 'Product',
+        all_product: 'All Product',
+        single_product: 'Single Product',
+        bulk_product: 'Bulk Product'
       }
     },
     footer: {
