@@ -2,11 +2,13 @@
   <div v-if="isAuthorized()" class="menu">
     <div class="row">
       <ul class="menu-block">
-        <li v-for="menu in user.menus" v-bind:class="{'submenu' : menu.subs.length > 0}">
-          <a>{{$t('menu.button.' + menu.code.replace(/-/g, '_'))}}<span v-if="menu.subs.length > 0">&nbsp;<i
-            class="fas fa-chevron-down"/></span></a>
+        <li v-for="menu in session.menus" v-bind:class="{'submenu' : menu.subs.length > 0}">
+          <a @click="href(menu.url, menu.isModule)">{{$t('menu.button.' + menu.code.replace(/-/g,
+            '_'))}}<span v-if="menu.subs.length > 0">&nbsp;<i
+              class="fas fa-chevron-down"/></span></a>
           <ul v-if="menu.subs.length" class="submenu-block">
-            <li v-for="sub in menu.subs"><a>{{$t('menu.button.' + sub.code.replace(/-/g, '_'))}}</a>
+            <li v-for="sub in menu.subs"><a @click="href(sub.url, sub.isModule)">{{$t('menu.button.'
+              + sub.code.replace(/-/g, '_'))}}</a>
             </li>
           </ul>
         </li>
@@ -16,15 +18,31 @@
 </template>
 
 <script>
+  import router from '@/router'
+
   export default {
     name: "TheMenu",
-    props: {
-      user: {type: Object, required: false}
-    },
     methods: {
+      href(url, isModule) {
+        if (typeof url !== 'undefined' && url !== null) {
+          if (isModule) {
+            router.push(url)
+          } else {
+            window.location.href = url
+          }
+        }
+      }
+    },
+    computed: {
       isAuthorized() {
         let self = this
-        return typeof self.user !== 'undefined' && self.user !== null
+        return (mode) => {
+          return self.$store.getters.isAuthorized(mode)
+        }
+      },
+      session() {
+        let self = this
+        return self.$store.getters.getSession
       }
     }
   }

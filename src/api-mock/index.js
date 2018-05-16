@@ -8,6 +8,7 @@ const mock = {
       username: 'developer@blibli.com',
       name: 'Developer',
       mode: {code: 'STORE-0001', type: 'STORE', name: 'Development Store'},
+      modules: ['/dashboard', '/product'],
       options: [{
         code: 'store-information',
         name: 'Store Information',
@@ -44,23 +45,28 @@ const mock = {
       menus: [{
         code: 'dashboard',
         name: 'Dashboard',
-        url: null,
+        url: '/dashboard',
+        isModule: true,
         subs: []
       }, {
         code: 'product',
         name: 'Product',
+        isModule: false,
         url: null,
         subs: [{
           code: 'all-product',
           name: 'All Product',
-          url: null
+          isModule: false,
+          url: '/product'
         }, {
           code: 'single-product',
           name: 'Single Product',
+          isModule: false,
           url: null
         }, {
           code: 'bulk-product',
           name: 'Bulk Product',
+          isModule: false,
           url: null
         }]
       }]

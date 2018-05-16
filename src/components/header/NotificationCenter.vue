@@ -1,5 +1,5 @@
 <template>
-  <li class="option" @click="dropdown($event); find();">
+  <li v-if="isAuthorized('STORE')" class="option" @click="dropdown($event); find();">
     <div class="notification">
       <i class="far fa-bell"/>
       <div class="counter" v-if="notificationCount !== 0">{{notificationCount | simplify}}</div>
@@ -39,9 +39,6 @@
 
   export default {
     name: "NotificationCenter",
-    props: {
-      storeCode: {type: String, required: false}
-    },
     data: () => {
       return {
         loaded: {
@@ -79,7 +76,7 @@
         self.stomp.debug = () => {
         }
         self.stomp.connect({}, frame => {
-          self.stomp.subscribe('/topic/' + self.storeCode, tick => {
+          self.stomp.subscribe('/topic/' + self.session.mode.code, tick => {
             self.$data['notificationCount']++
           })
         }, error => {
@@ -109,6 +106,18 @@
       },
       readAll() {
         api.notification.readAll()
+      }
+    },
+    computed: {
+      isAuthorized() {
+        let self = this
+        return (mode) => {
+          return self.$store.getters.isAuthorized(mode)
+        }
+      },
+      session() {
+        let self = this
+        return self.$store.getters.getSession
       }
     },
     mounted() {

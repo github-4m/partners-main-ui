@@ -11,32 +11,37 @@
             <span class="application-name">Merchant Tool Application</span>
           </div>
           <div v-if="isAuthorized('STORE')">
-            <span class="store-name">{{user.mode.name}}</span>
+            <span class="store-name">{{session.mode.name}}</span>
           </div>
         </li>
         <localization-center/>
-        <notification-center v-if="isAuthorized('STORE')" v-bind:storeCode="user.mode.code"/>
+        <notification-center/>
         <li v-if="isAuthorized()" class="option">
           <div class="user">
             <i class="far fa-user"/>
           </div>
           <ul class="dropdown">
             <li class="user-details">
-              <div class="name">{{user.name}}</div>
-              <div class="email">{{user.username}}</div>
+              <div class="name">{{session.name}}</div>
+              <div class="email">{{session.username}}</div>
             </li>
             <li class="splitter"/>
-            <li v-for="option in user.options"><a v-bind:id="option.code" v-bind:href="option.url">
-              {{$t('header.button.' + option.code.replace(/-/g, '_'))}}</a>
+            <li v-for="option in session.options">
+              <a v-bind:id="option.code" v-bind:href="option.url">{{$t('header.button.' +
+                option.code.replace(/-/g, '_'))}}</a>
             </li>
             <li class="splitter"/>
-            <li><a>{{$t('header.button.change_password')}}</a></li>
-            <li><a>{{$t('header.button.sign_out')}}</a></li>
+            <li>
+              <a>{{$t('header.button.change_password')}}</a>
+            </li>
+            <li>
+              <a>{{$t('header.button.sign_out')}}</a>
+            </li>
           </ul>
         </li>
       </ul>
     </div>
-    <the-menu v-bind:user="user"/>
+    <the-menu/>
   </div>
 </template>
 
@@ -51,15 +56,16 @@
     props: {
       user: {type: Object, required: false}
     },
-    methods: {
-      isAuthorized(mode) {
+    computed: {
+      isAuthorized() {
         let self = this
-        if (typeof mode === 'undefined' || mode === null) {
-          return typeof self.user !== 'undefined' && self.user !== null
-        } else {
-          return typeof self.user !== 'undefined' && self.user !== null && mode
-            === self.user.mode.type
+        return (mode) => {
+          return self.$store.getters.isAuthorized(mode)
         }
+      },
+      session() {
+        let self = this
+        return self.$store.getters.getSession
       }
     }
   }

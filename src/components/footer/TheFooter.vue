@@ -4,11 +4,11 @@
       <ul class="footer-block">
         <li>
           <div class="title">{{$t('footer.text.support')}}</div>
-          <div v-if="!isAuthorized()">
+          <div v-if="!authorized">
             <a id="how-to-sell" href="https://www.blibli.com/pages/merchant-corner#how">{{$t('footer.button.how_to_sell')}}</a><br><a
             id="about-blibli" href="https://www.blibli.com/panduan-belanja#hash-side-tentangBlibli">{{$t('footer.button.about_blibli')}}</a>
           </div>
-          <div v-if="isAuthorized()">
+          <div v-if="authorized">
             <a id="information-center">{{$t('footer.button.information_center')}}</a><br><a
             id="tutorial">{{$t('footer.button.tutorial')}}</a><br><a id="user-guide">{{$t('footer.button.user_guide')}}</a>
           </div>
@@ -46,17 +46,16 @@
 <script>
   export default {
     name: "TheFooter",
-    props: {
-      user: {type: Object, required: false}
-    },
     methods: {
-      isAuthorized() {
-        let self = this
-        return typeof self.user !== 'undefined' && self.user !== null
-      },
       copyright() {
         let date = new Date()
         return date.getFullYear()
+      }
+    },
+    computed: {
+      authorized() {
+        let self = this
+        return self.$store.getters.isAuthorized()
       }
     }
   }

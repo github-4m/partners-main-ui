@@ -1,0 +1,13 @@
+<template>
+<div>TEST LOGINNYA</div>
+</template>
+
+<script>
+  export default {
+    name: "Login"
+  }
+</script>
+
+<style scoped>
+
+</style>

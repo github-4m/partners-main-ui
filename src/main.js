@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import store from './store'
 import router from './router'
 import i18n from './i18n'
 
@@ -10,8 +11,9 @@ Vue.config.productionTip = process.env.NODE_ENV === 'production';
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  components: {App},
-  template: '<App/>',
+  store,
   router,
-  i18n
+  i18n,
+  components: {App},
+  template: '<App/>'
 });
